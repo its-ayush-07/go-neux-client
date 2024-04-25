@@ -63,7 +63,13 @@ export default function ArticleLayout({ data }: ArticleLayoutProps) {
         }
       }
     } catch (error) {
-      if (error["response"]["status"] == 401) {
+      const parsedError = error as { response: { status: number } } | undefined;
+
+      if (
+        parsedError &&
+        parsedError.response &&
+        parsedError.response.status === 401
+      ) {
         router.push("/sign-in");
       }
     }
